@@ -5,6 +5,7 @@ import 'package:cstudents/pages/fees/fees.dart';
 import 'package:cstudents/pages/home/Home.dart';
 import 'package:cstudents/pages/payment/mainPaymentPage.dart';
 import 'package:cstudents/pages/results/results.dart';
+import 'package:cstudents/util/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -124,25 +125,27 @@ class Menu extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
               children: [
-                Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Container(
-                      height: 35,
-                      width: 20,
-                      color: Color.fromARGB(255, 12, 148, 0),
+                Container(
+                  height: 48,
+                  width: 48,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(500),
+                      color: AppColors.appBar,
+                      boxShadow: [
+                        BoxShadow(
+                            color: Color.fromARGB(115, 204, 204, 204),
+                            blurRadius: 10,
+                            spreadRadius: 1)
+                      ]),
+                  child: Center(
+                    child: Text(
+                      "Q",
+                      style: GoogleFonts.salsa(
+                          fontSize: 38,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.amber),
                     ),
-                    Container(
-                      height: 26,
-                      width: 20,
-                      color: Colors.white,
-                    ),
-                    const Icon(
-                      Icons.monetization_on,
-                      color: Color.fromARGB(255, 255, 201, 7),
-                      size: 50,
-                    ),
-                  ],
+                  ),
                 ),
                 Text(
                   "Quizes",

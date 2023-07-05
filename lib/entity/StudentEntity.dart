@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class StudentEntity {
   String? _name;
   List<Object>? _account;
@@ -8,6 +10,7 @@ class StudentEntity {
   List<Object>? _studentExamArray;
   String? _tId;
   String? _class;
+  Map<String, int>? quizMap = {};
 
   StudentEntity(
       {String? name,
@@ -78,6 +81,9 @@ class StudentEntity {
         _studentExamArray!.add(v);
       });
     }
+    if (json?['studentQuizArray'] != null) {
+      quizMap = Map.castFrom(jsonDecode(json?['studentQuizArray']));
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -93,6 +99,7 @@ class StudentEntity {
     if (this._studentExamArray != null) {
       data['studentExamArray'] = this._studentExamArray!.map((v) => v).toList();
     }
+    data['studentQuizArray'] = jsonEncode(quizMap);
     return data;
   }
 }

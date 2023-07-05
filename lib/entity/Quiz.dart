@@ -9,6 +9,7 @@ class Quiz {
   bool? switchValue = false;
   List<Question> questions = [];
   bool isGivenAlready = false;
+  List<Object> results = [];
   Quiz();
   // Quiz(
   //     {this.id,
@@ -35,6 +36,11 @@ class Quiz {
         questions!.add(Question.fromJson(v));
       });
     }
+    if (json['results'] != null) {
+      json['results'].forEach((v) {
+        results.add(v);
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -49,6 +55,9 @@ class Quiz {
     if (this.questions != null) {
       data['questions'] = this.questions!.map((v) => v.toJson()).toList();
     }
+
+    data['results'] = this.results.map((v) => v).toList();
+
     return data;
   }
 }
