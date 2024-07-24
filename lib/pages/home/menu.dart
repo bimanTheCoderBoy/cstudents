@@ -1,4 +1,3 @@
-import 'package:cstudents/pages/Notes/notes.dart';
 import 'package:cstudents/pages/Quiz/Quizes.dart';
 import 'package:cstudents/pages/anouncement/anouncement.dart';
 import 'package:cstudents/pages/fees/fees.dart';
@@ -11,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../Notes/NoteClass.dart';
 
 class Menu extends StatelessWidget {
   const Menu({super.key});
@@ -52,7 +53,7 @@ class Menu extends StatelessWidget {
                 context,
                 MaterialPageRoute<void>(
                   builder: (BuildContext context) =>
-                      Notes(path: "files/${globalStudent.sclass}"),
+                      Notes("files/${globalStudent.sclass}"),
                 ),
               );
             },
@@ -114,8 +115,8 @@ class Menu extends StatelessWidget {
                     RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(22.0),
                 ))),
-            onPressed: () {
-              Navigator.push(
+            onPressed: () async {
+              await Navigator.push(
                 context,
                 MaterialPageRoute<void>(
                     builder: (BuildContext context) => Quizes()),

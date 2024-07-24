@@ -2,10 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:path/path.dart';
-
-import '../../util/colors.dart';
 
 class PDFViewerPage extends StatefulWidget {
   final File file;
@@ -38,14 +35,11 @@ class _PDFViewerPageState extends State<PDFViewerPage> {
 
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 60,
-        elevation: 2,
-        backgroundColor: AppColors.appBar,
+        backgroundColor: Color.fromARGB(182, 73, 134, 255),
         title: Text(
-          "Notes",
-          style: GoogleFonts.lato(fontSize: 20),
+          name,
+          style: TextStyle(fontSize: 18),
         ),
-        leading: const BackButton(color: Color.fromARGB(255, 255, 255, 255)),
         actions: pages >= 2
             ? [
                 Center(child: Text(text)),

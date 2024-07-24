@@ -149,7 +149,7 @@ class _QuizesState extends State<Quizes> {
                                                 255, 19, 37, 95)),
                                         child: Center(
                                           child: Text(
-                                            "${globalStudent.quizMap![quizArray![index].id as String]}",
+                                            "${globalStudent.quizMap![quizArray![index].id as String] ?? 'A'}",
                                             style: TextStyle(
                                                 color: Colors.white60,
                                                 fontSize: 25,
@@ -158,13 +158,18 @@ class _QuizesState extends State<Quizes> {
                                         ))
                                     : IconButton(
                                         onPressed: () async {
-                                          await Navigator.push(
-                                            context,
-                                            MaterialPageRoute<void>(
-                                              builder: (BuildContext context) =>
-                                                  QuizPage(quizArray![index]),
-                                            ),
-                                          );
+                                          if (quizArray![index]
+                                              .questions
+                                              .isNotEmpty) {
+                                            await Navigator.push(
+                                              context,
+                                              MaterialPageRoute<void>(
+                                                builder: (BuildContext
+                                                        context) =>
+                                                    QuizPage(quizArray![index]),
+                                              ),
+                                            );
+                                          }
                                           load();
                                         },
                                         icon: Container(
@@ -178,7 +183,7 @@ class _QuizesState extends State<Quizes> {
                                                 Color.fromARGB(255, 19, 37, 95),
                                           ),
                                         ),
-                                        iconSize: 40,
+                                        iconSize: 60,
                                       ),
                               ),
                             ),

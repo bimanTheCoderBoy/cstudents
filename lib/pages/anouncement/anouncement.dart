@@ -21,7 +21,7 @@ class _AnouncementState extends State<Anouncement> {
   loadAnouncementArray() async {
     anouncementArray = await AnouncementDao.getAnouncements();
 
-    if (!isDispose) {
+    if (mounted) {
       setState(() {
         loading = false;
       });
@@ -321,7 +321,7 @@ class _AnouncementState extends State<Anouncement> {
                                     "${anouncementArray[index]['date']}"
                                                 .length ==
                                             4
-                                        ? "0${anouncementArray[index]['date']}"
+                                        ? "${anouncementArray[index]['date']}"
                                         : "${anouncementArray[index]['date']}",
                                     style: const TextStyle(
                                         color:

@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:cstudents/main.dart';
+import 'package:cstudents/pages/Quiz/Timer.dart';
 import 'package:cstudents/util/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:get/get.dart';
 import 'package:themed/themed.dart';
 
 import '../../dao/QuizDao.dart';
@@ -17,12 +21,22 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
+  var getValue = Get.put(TimerController());
+  Timer? timerm;
+
+  closeTimer() {
+    if (timerm != null) {
+      timerm!.cancel();
+    }
+  }
+
   Quiz quiz;
   _QuizPageState(this.quiz);
 
   List<int> score = [];
   int totalQuestions = 0;
   int indexQuestion = 0;
+  int reamainingTimeTimer = -1;
   load() async {
     if (mounted) {
       setState(() {
@@ -81,6 +95,14 @@ class _QuizPageState extends State<QuizPage> {
   @override
   void initState() {
     super.initState();
+    reamainingTimeTimer = remainingTime(quiz);
+    print(reamainingTimeTimer);
+    if (reamainingTimeTimer > 0) {
+      getValue.startTimer(reamainingTimeTimer);
+      startTimer();
+    } else {
+      Navigator.pop(context);
+    }
     load();
   }
 
@@ -134,6 +156,8 @@ class _QuizPageState extends State<QuizPage> {
                             onPressed: () {
                               // Navigator.pop(context);
                               // Navigator.pop(context);
+                              getValue.onClose();
+                              closeTimer();
                               Navigator.of(context).pop(true);
                             },
                             child: Container(
@@ -181,8 +205,26 @@ class _QuizPageState extends State<QuizPage> {
         false;
   }
 
+  startTimer() {
+    timerm = Timer.periodic(Duration(seconds: 1), ((timer) {
+      print(MyTimer().controller.time.value);
+      if (MyTimer().controller.time.value == "00:00") {
+        timer.cancel();
+        setState(() {
+          isSubmitPage = true;
+        });
+
+        submitPageUpdate();
+        closeTimer();
+      }
+    }));
+  }
+
   @override
   Widget build(BuildContext context) {
+    //timer place
+
+    // getValue.refresh();
     backdialog() => showDialog(
           context: context,
           builder: (context) {
@@ -220,6 +262,8 @@ class _QuizPageState extends State<QuizPage> {
                           ),
                           onPressed: () {
                             Navigator.pop(context);
+                            getValue.onClose();
+                            closeTimer();
                             Navigator.pop(context);
                           },
                           child: Container(
@@ -326,11 +370,13 @@ class _QuizPageState extends State<QuizPage> {
                           ),
                           onPressed: () async {
                             Navigator.pop(context);
-
+                            closeTimer();
                             setState(() {
                               isSubmitPage = true;
                             });
+
                             submitPageUpdate();
+                            getValue.onClose();
                           },
                           child: Container(
                               height: 40,
@@ -350,7 +396,7 @@ class _QuizPageState extends State<QuizPage> {
           },
         );
 
-    return new WillPopScope(
+    return WillPopScope(
         onWillPop: _onWillPop,
         child: Material(
           color: AppColors.appBar,
@@ -456,8 +502,28 @@ class _QuizPageState extends State<QuizPage> {
                   margin: EdgeInsets.only(left: 10, right: 10),
                   child: Column(
                     children: [
-                      SizedBox(
-                        height: 100,
+                      SafeArea(
+                        child: Container(
+                            height: 100,
+                            // width: 200,
+                            // decoration: ShapeDecoration(
+                            //     color: Theme.of(context).primaryColor,
+                            //     shape: StadiumBorder(side: BorderSide(width: 2, color: Colors.red))),
+                            child: Center(
+                                child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.timer,
+                                  size: 35,
+                                  color: Colors.white,
+                                ),
+                                SizedBox(
+                                  width: 8,
+                                ),
+                                MyTimer(),
+                              ],
+                            ))),
                       ),
                       Row(
                         children: [

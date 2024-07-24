@@ -42,18 +42,55 @@ readQuizes() async {
       .get()
       .then((value) => value.data()!['studentQuizArray']);
 
-  if (stQuizDataBase != null) {
-    var stQuizMap = Map.castFrom(jsonDecode(stQuizDataBase));
-    stQuizMap.forEach((key, value) {
-      for (var e in allQuizes) {
-        if (e.id == key) {
-          e.isGivenAlready = true;
-        }
+  // if (stQuizDataBase != null) {
+  //   var stQuizMap = Map.castFrom(jsonDecode(stQuizDataBase));
+  //   stQuizMap.forEach((key, value) {
+  //     for (var e in allQuizes) {
+  //       if (e.id == key) {
+  //         // e.isGivenAlready = true;
+  //       }
+  //     }
+  //   });
+  // }
+  for (int i = 0; i < allQuizes.length; i++) {
+    DateTime nowTime = DateTime.now();
+    DateTime? lastOnTime = allQuizes[i].switchTime;
+    Duration? diff;
+    if (lastOnTime == null) {
+      allQuizes[i].isGivenAlready = true;
+    } else {
+      diff = nowTime.difference(lastOnTime);
+      int miniutes = diff.inMinutes;
+      int quizTime = int.parse(allQuizes[i].time as String);
+
+      if (miniutes < quizTime) {
+        // switchArray.add(true);
+        allQuizes[i].isGivenAlready = false;
+      } else {
+        allQuizes[i].isGivenAlready = true;
       }
-    });
+    }
+  }
+  return allQuizes;
+}
+
+int remainingTime(Quiz quiz) {
+  int ans = -1;
+
+  DateTime nowTime = DateTime.now();
+  DateTime? lastOnTime = quiz.switchTime;
+  Duration? diff;
+
+  if (lastOnTime == null) {
+  } else {
+    diff = nowTime.difference(lastOnTime);
+    int seconds = diff.inSeconds;
+    int quizTime = int.parse(quiz.time as String);
+
+    ans = quizTime * 60 - seconds;
   }
 
-  return allQuizes;
+  return ans;
 }
 
 updateQuizResults(int score, Quiz quiz) async {

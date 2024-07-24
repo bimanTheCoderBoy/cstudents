@@ -7,8 +7,10 @@ import 'package:page_transition/page_transition.dart';
 
 import 'auth/Login.dart';
 import 'firebase_options.dart';
+import 'pages/Quiz/Timer.dart';
 import 'pages/home/Home.dart';
 import 'util/store.dart';
+import 'package:get/get.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,6 +25,8 @@ final navgatorKey = GlobalKey<NavigatorState>();
 
 //main App
 class MyApp extends StatelessWidget {
+  // ignore: non_constant_identifier_names
+
   const MyApp({super.key});
 
   @override

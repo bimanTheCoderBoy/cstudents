@@ -15,6 +15,6 @@ class AnouncementDao {
         batch = e;
       }
     }
-    if (batch == null) return Future.value(batch!.data()['batchMessageArray']);
+    if (batch != null) return Future.value(batch!.data()['batchMessageArray']);
   }
 }
